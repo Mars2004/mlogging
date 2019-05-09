@@ -4,9 +4,14 @@
 #define MARSTECH_LOGGER_PROVIDER_MOCK_H
 
 
+#include "../IMsvLoggerProvider.h"
+
+#include "mheaders/MsvCompiler.h"
+MSV_DISABLE_ALL_WARNINGS
+
 #include <gmock\gmock.h>
 
-#include "..\IMsvLoggerProvider.h"
+MSV_ENABLE_WARNINGS
 
 
 class MsvLoggerProvider_Mock:

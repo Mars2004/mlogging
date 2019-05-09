@@ -38,10 +38,14 @@ along with Foobar. If not, see <https://www.gnu.org/licenses/>.
 
 #include "mlogging.h"
 
+MSV_DISABLE_ALL_WARNINGS
+
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/null_sink.h"
 
 #include <mutex>
+
+MSV_ENABLE_WARNINGS
 
 
 /**************************************************************************************************//**

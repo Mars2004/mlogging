@@ -44,7 +44,13 @@ along with Foobar. If not, see <https://www.gnu.org/licenses/>.
 #define NDEBUG
 #endif // !defined(_DEBUG) && !defined(DEBUG) && !defined(NDEBUG)
 
+
+MSV_DISABLE_ALL_WARNINGS
+
 #include <cassert>
+
+MSV_ENABLE_WARNINGS
+
 #endif
 
 

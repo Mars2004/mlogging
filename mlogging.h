@@ -26,7 +26,12 @@ along with Foobar. If not, see <https://www.gnu.org/licenses/>.
 #define MARSTECH_LOGGING_H
 
 
+#include "mheaders/MsvCompiler.h"
+MSV_DISABLE_ALL_WARNINGS
+
 #include "spdlog/spdlog.h"
+
+MSV_ENABLE_WARNINGS
 
 
 /**************************************************************************************************//**

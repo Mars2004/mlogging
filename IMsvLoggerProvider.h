@@ -71,7 +71,7 @@ public:
 	* @param[in]	loggerName		Logger name which will be included to log file.
 	* @param[in]	logFile			Log file name.
 	* @param[in]	maxLogFileSize	Maximum size of one log file (in bytes).
-	* @param[in]	maxLogFiles		Maximum size of log files (rotating logger, oldest file will be deleted).
+	* @param[in]	maxLogFiles		Maximum number of log files (rotating logger, oldest file will be deleted).
 	* @returns		MsvLogger
 	* @see			MsvLogger
 	******************************************************************************************************/
