@@ -44,6 +44,7 @@ MSV_DISABLE_ALL_WARNINGS
 #include "spdlog/sinks/null_sink.h"
 
 #include <mutex>
+#include <map>
 
 MSV_ENABLE_WARNINGS
 
@@ -73,7 +74,8 @@ public:
 		m_logFolder(logFolder),
 		m_logFile(logFile),
 		m_maxLogFileSize(maxLogFileSize),
-		m_maxLogFiles(maxLogFiles)
+		m_maxLogFiles(maxLogFiles),
+		m_logLevel(spdlog::level::info)
 	{
 	}
 
@@ -107,9 +109,20 @@ public:
 			if (!spLogger)
 			{
 				//logger does not exists -> create new one
-				spLogger = spdlog::rotating_logger_mt(loggerName, m_logFolder + logFile, maxLogFileSize, maxLogFiles);
+				std::string logFilePath(m_logFolder + "/" + logFile);
+				std::map<std::string, std::shared_ptr<spdlog::sinks::rotating_file_sink_mt>>::const_iterator it = m_sharedSinks.find(logFilePath);
+				if (it != m_sharedSinks.end())
+				{
+					spLogger.reset(new (std::nothrow) spdlog::logger(loggerName, it->second));
+				}
+				else
+				{
+					std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> spSharedSink(new (std::nothrow) spdlog::sinks::rotating_file_sink_mt(m_logFolder + "/" + logFile, maxLogFileSize, maxLogFiles));
+					spLogger.reset(new (std::nothrow) spdlog::logger(loggerName, spSharedSink));
+					m_sharedSinks[logFilePath] = spSharedSink;
+				}				
 
-				spLogger->set_level(spdlog::level::info);
+				spLogger->set_level(m_logLevel);
 				//[2014-31-10 23:46:59.256789123] [processId] [threadId] [loggerName] [severity] "message"
 				//[2014-31-10 23:46:59.256789123] [1111] [2222] [MsvLogger] [info] Some message
 				spLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%F] [%P] [%t] [%n] [%l] %v");
@@ -123,6 +136,17 @@ public:
 		}
 
 		return spLogger;
+	}
+
+	/**************************************************************************************************//**
+	* @copydoc IMsvLoggerProvider::SetLogLevel(MsvLogLevel logLevel)
+	******************************************************************************************************/
+	virtual void SetLogLevel(MsvLogLevel logLevel)
+	{
+		std::lock_guard<std::recursive_mutex> lock(m_lock);
+
+		m_logLevel = logLevel;
+		spdlog::set_level(logLevel);
 	}
 
 protected:
@@ -153,6 +177,17 @@ protected:
 	* @brief		Default maximum count of log files.
 	******************************************************************************************************/
 	int m_maxLogFiles;
+
+	/**************************************************************************************************//**
+	* @brief		Log level.
+	******************************************************************************************************/
+	MsvLogLevel m_logLevel;
+
+	/**************************************************************************************************//**
+	* @brief		Shared sinks.
+	* @details	Already created mutltithreaded sinks.
+	******************************************************************************************************/
+	mutable std::map<std::string, std::shared_ptr<spdlog::sinks::rotating_file_sink_mt>> m_sharedSinks;
 };
 
 
@@ -229,6 +264,15 @@ public:
 		}
 
 		return spLogger;
+	}
+
+	/**************************************************************************************************//**
+	* @copydoc IMsvLoggerProvider::SetLogLevel(MsvLogLevel logLevel)
+	******************************************************************************************************/
+	virtual void SetLogLevel(MsvLogLevel logLevel)
+	{
+		(void) logLevel;
+		//null logger does not log anything -> no log level required
 	}
 
 protected:

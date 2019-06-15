@@ -76,6 +76,15 @@ public:
 	* @see			MsvLogger
 	******************************************************************************************************/
 	virtual std::shared_ptr<MsvLogger> GetLogger(const char* loggerName, const char* logFile, int maxLogFileSize, int maxLogFiles) const = 0;
+
+	/**************************************************************************************************//**
+	* @brief			Set log level.
+	* @details		Sets log level for logging to all logger. Default level is INFO.
+	* @param[in]	logLevel			Log level to set.
+	* @note			Default log level is set to info. It is not necessary to call this method when INFO log level
+	*					is required.
+	******************************************************************************************************/
+	virtual void SetLogLevel(MsvLogLevel logLevel) = 0;
 };
 
 

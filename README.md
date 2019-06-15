@@ -1,16 +1,17 @@
 # MarsTech Logging
- - [Instalation](#instalation)
+ - [Installation](#installation)
 	 - [Configuration](#configuration)
  - [MsvLogger](#msvlogger)
 	 - [Log macros](#log-macros)
  - [Logger providers](#logger-providers)
  - [Logging object base](#logging-object-base)
+ - [Usage Example](#usage-example)
  - [Source Code Documentation](#source-code-documentation)
  - [License](#license)
 
 MarsTech Logging (MLOGGING) is a C++ project to make logging easier. It defines [log macros](#log-macros) and [logger providers](#logger-providers) for easier logging and creating loggers.
 
-## Instalation
+## Installation
 MLOGGING is header only project/library - there is no static or dynamic library. You can download repository and include header file mlogging.h to your project.
 
 ### Dependencies
@@ -106,6 +107,11 @@ public:
 	//logger is accessible as protected member "m_spLogger" and can be used in log macros
 };
 ~~~
+
+## Usage Example
+There is also an [usage example](https://github.com/Mars2004/msys/tree/master/Example) which uses the most of [MarsTech](https://github.com/Mars2004) projects and libraries.
+Its source codes and readme can be found at:
+ - [https://github.com/Mars2004/msys/tree/master/Example](https://github.com/Mars2004/msys/tree/master/Example)
 
 ## Source Code Documentation
 You can find generated source code documentation at [https://www.marstech.cz/projects/mlogging/1.0.1/doc](https://www.marstech.cz/projects/mlogging/1.0.1/doc).

@@ -40,6 +40,12 @@ MSV_ENABLE_WARNINGS
 ******************************************************************************************************/
 typedef spdlog::logger MsvLogger;
 
+/**************************************************************************************************//**
+* @brief			Log level type definition.
+* @details		Defines log level type. It is used to set log level.
+******************************************************************************************************/
+typedef spdlog::level::level_enum MsvLogLevel;
+
 
 #include "IMsvLoggerProvider.h"
 
